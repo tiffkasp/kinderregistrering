@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <title>KruisKids Kinderregistrering</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+      .themeNavyBlue{
+            background-color: #0A2857;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark themeNavyBlue">
   <div class="container-fluid">
     <a class="navbar-brand" th:href="@{/}" style="width: 150px">
       <img src="imgs/kruiskids.png" alt="Your Brand Image" width="70%" height="70%" class="d-inline-block align-top">
@@ -39,7 +44,7 @@
   <div>
     <form th:action="@{/processStatistics}" th:object="${statisticObject}" method="POST">
       <label class="form-label" for="folder">Kies Datum</label>
-      <select class="form-select" name="folder" id="folder" style="width: 30%" required>
+      <select th:field="*{folderDate}" class="form-select" name="folder" id="folder" style="width: 30%" required>
         <!-- Iterate over folder names inside DATA folder -->
         <th:block th:each="tempfolder : ${statisticObject.dataFolderList}">
           <option th:value="${tempfolder}" th:text="${tempfolder}"></option>
@@ -48,6 +53,37 @@
       <br>
       <button type="submit" class="btn btn-outline-primary">Submit</button>
     </form>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col">
+      <label class="form-label"><strong>Krimpvarkies Klas:</strong></label><br>
+      <label class="form-label">Totaal = <span th:text="${krimpvarkiesTotal}"></span></label><br>
+      <label class="form-label">Totaal Eerste Diens = <span th:text="${krimpvarkiesEerste}"></span></label><br>
+      <label class="form-label">Totaal Tweede Diens = <span th:text="${krimpvarkiesTweede}"></span></label><br>
+    </div>
+    <div class="col">
+      <label class="form-label"><strong>Brawe Bere Klas:</strong></label><br>
+      <label class="form-label">Totaal = <span th:text="${braveBereTotal}"></span></label><br>
+      <label class="form-label">Totaal Eerste Diens = <span th:text="${braveBereEerste}"></span></label><br>
+      <label class="form-label">Totaal Tweede Diens = <span th:text="${braveBereTweede}"></span></label><br>
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col">
+      <label class="form-label"><strong>Klein Jakkelse Klas:</strong></label><br>
+      <label class="form-label">Totaal = <span th:text="${kleinJakkelseTotal}"></span></label><br>
+      <label class="form-label">Totaal Eerste Diens = <span th:text="${kleinJakkelseEerste}"></span></label><br>
+      <label class="form-label">Totaal Tweede Diens = <span th:text="${kleinJakkelseTweede}"></span></label><br>
+    </div>
+    <div class="col">
+      <label class="form-label"><strong>Verkenners Klas:</strong></label><br>
+      <label class="form-label">Totaal = <span th:text="${verkennersTotal}"></span></label><br>
+      <label class="form-label">Totaal Eerste Diens = <span th:text="${verkennersEerste}"></span></label><br>
+      <label class="form-label">Totaal Tweede Diens = <span th:text="${verkennersTweede}"></span></label><br>
+    </div>
   </div>
 
 </div>

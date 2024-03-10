@@ -1,8 +1,6 @@
 package co.za.kruisweg.kinderregistreering.util;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -92,8 +90,59 @@ public class ExcelUtil {
         }
     }
 
-    public static int readNumberOfEntriesFromExcel(String folder){
-        return 0;
+    public static int readNumberOfEntriesFromExcel(String folder, String fileName){
+        String filePath = "DATA" + File.separator + folder + File.separator + fileName;
+        int entryCount = 0;
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            Workbook workbook = WorkbookFactory.create(fileInputStream);
+            Sheet sheet = workbook.getSheetAt(0); // Assuming only one sheet
+
+            int rowCount = sheet.getPhysicalNumberOfRows();
+            entryCount = rowCount - 1; // Excluding header row
+
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return entryCount;
+    }
+
+    public static int readNumberOfEntriesFromExcelContaining(String folder, String fileName, String header, String value){
+        String filePath = "DATA" + File.separator + folder + File.separator + fileName;
+        int valueMatchCount = 0;
+
+        try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+            Workbook workbook = WorkbookFactory.create(fileInputStream);
+            Sheet sheet = workbook.getSheetAt(0); // Assuming only one sheet
+
+            int rowCount = sheet.getPhysicalNumberOfRows();
+            int entryCount = rowCount - 1; // Excluding header row
+
+            int columnIndexToWorkFrom = 0;
+            Row headerRow = sheet.getRow(0);
+            for (int i = 0; i < headerRow.getLastCellNum(); i++) {
+                if(headerRow.getCell(i).getStringCellValue().equalsIgnoreCase(header)){
+                    columnIndexToWorkFrom = i;
+                    break;
+                }
+            }
+
+            // Optionally, you can read and process the data here
+            // Skip the first row (header row)
+            for (int i = 1; i < rowCount; i++) {
+                Row row = sheet.getRow(i);
+                // Process the data in the row
+                Cell cell = row.getCell(columnIndexToWorkFrom);
+                if (cell.getStringCellValue().equalsIgnoreCase(value)) {
+                    valueMatchCount++;
+                }
+            }
+
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return valueMatchCount;
     }
 
 }
