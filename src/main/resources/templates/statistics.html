@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KruisKids Kinderregistrering</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}" style="width: 150px">
+      <img src="imgs/kruiskids.png" alt="Your Brand Image" width="70%" height="70%" class="d-inline-block align-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" th:href="@{/}">Registrering</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" th:href="@{/statistics}">Statistieke</a>
+        </li>
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="#">Soek</a>-->
+<!--        </li>-->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  <h2 class="text-center mb-4">Statistieke</h2>
+  <div>
+    <form th:action="@{/processStatistics}" th:object="${statisticObject}" method="POST">
+      <label class="form-label" for="folder">Kies Datum</label>
+      <select class="form-select" name="folder" id="folder" style="width: 30%" required>
+        <!-- Iterate over folder names inside DATA folder -->
+        <th:block th:each="tempfolder : ${statisticObject.dataFolderList}">
+          <option th:value="${tempfolder}" th:text="${tempfolder}"></option>
+        </th:block>
+      </select>
+      <br>
+      <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </form>
+  </div>
+
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

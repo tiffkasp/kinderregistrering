@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KruisKids Kinderregistrering</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .themeYellow {
+            background-color: #FAC113;
+        }
+        .themeRed {
+            background-color: #8F213F;
+        }
+        .themeDarkGreen {
+            background-color: #155758;
+        }
+        .themeLightGreen {
+            background-color: #4DB413;
+        }
+        .themeOrange {
+            background-color: #D4510F;
+        }
+        .whiteFont {
+            color: white;
+        }
+
+        .kruisButton {
+            height: 100%;
+            width: 100%
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}" style="width: 150px">
+            <img src="imgs/kruiskids.png" alt="Your Brand Image" width="70%" height="70%" class="d-inline-block align-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">Registrering</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/statistics}">Statistieke</a>
+                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Soek</a>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-3">
+    <h2 class="text-center mb-4">Teken jou kind hier in</h2>
+    <div class="row mb-4" style="height:100px">
+        <div class="col-6">
+            <button class="btn btn-lg themeRed whiteFont kruisButton" data-bs-toggle="modal" data-bs-target="#KrimpvarkiesModal">Krimpvarkies</button>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-lg themeDarkGreen whiteFont kruisButton" data-bs-toggle="modal" data-bs-target="#BraveBereModal">Brave Bere</button>
+        </div>
+    </div>
+    <div class="row mb-4" style="height:100px">
+        <div class="col-6">
+            <button class="btn btn-lg themeOrange whiteFont kruisButton" data-bs-toggle="modal" data-bs-target="#KleinJakkelseModal">Klein Jakkelse</button>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-lg themeLightGreen whiteFont kruisButton" data-bs-toggle="modal" data-bs-target="#VerkennersModal">Verkenners</button>
+        </div>
+    </div>
+    <!-- Success Alert -->
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert" th:if="${showSuccess}">
+        <strong><span th:text="${kidNameAndSurname}"></span></strong> was successfully added to <strong><span th:text="${className}"></span></strong>.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="KrimpvarkiesModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="KrimpvarkiesModalLabel">Krimpvarkies Inteken</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/processKrimpvarkiesForm}" th:object="${krimpvarkiesForm}" method="POST" id="krimpvarkiesForm">
+                    <div class="mb-3">
+                        <label for="name1" class="form-label">Kind Naam en Van</label>
+                        <input th:field="*{kidNameAndSurname}" type="text" class="form-control" id="name1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname1" class="form-label">Ouer Naam en Van</label>
+                        <input th:field="*{parentNameAndSurname}" type="text" class="form-control" id="surname1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cellphone1" class="form-label">Selfoon Nommer</label>
+                        <input th:field="*{cellphoneNumber}" type="tel" class="form-control" id="cellphone1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Diens</label>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Eerste" type="radio" class="form-check-input" id="radioEerste1" required>
+                            <label class="form-check-label" for="radioEerste1">
+                                Eerste
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Tweede" type="radio" class="form-check-input" id="radioTweede1" required>
+                            <label class="form-check-label" for="radioTweede1">
+                                Tweede
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="BraveBereModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="BraveBereModalLabel">Brave Bere Inteken</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/processBraveBereForm}" th:object="${braveBereForm}" method="POST" id="braveBereForm">
+                    <div class="mb-3">
+                        <label for="name2" class="form-label">Kind Naam en Van</label>
+                        <input th:field="*{kidNameAndSurname}" type="text" class="form-control" id="name2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname2" class="form-label">Ouer Naam en Van</label>
+                        <input th:field="*{parentNameAndSurname}" type="text" class="form-control" id="surname2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cellphone2" class="form-label">Selfoon Nommer</label>
+                        <input th:field="*{cellphoneNumber}" type="tel" class="form-control" id="cellphone2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Diens</label>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Eerste" type="radio" class="form-check-input" id="radioEerste2" required>
+                            <label class="form-check-label" for="radioEerste2">
+                                Eerste
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Tweede" type="radio" class="form-check-input" id="radioTweede2" required>
+                            <label class="form-check-label" for="radioTweede2">
+                                Tweede
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="KleinJakkelseModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="KleinJakkelseModalLabel">Klein Jakkelse Inteken</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/processKleinJakkelseForm}" th:object="${kleinJakkelseForm}" method="POST" id="kleinJakkelseForm">
+                    <div class="mb-3">
+                        <label for="name3" class="form-label">Kind Naam en Van</label>
+                        <input th:field="*{kidNameAndSurname}" type="text" class="form-control" id="name3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname3" class="form-label">Ouer Naam en Van</label>
+                        <input th:field="*{parentNameAndSurname}" type="text" class="form-control" id="surname3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cellphone3" class="form-label">Selfoon Nommer</label>
+                        <input th:field="*{cellphoneNumber}" type="tel" class="form-control" id="cellphone3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Diens</label>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Eerste" type="radio" class="form-check-input" id="radioEerste3" required>
+                            <label class="form-check-label" for="radioEerste3">
+                                Eerste
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Tweede" type="radio" class="form-check-input" id="radioTweede3" required>
+                            <label class="form-check-label" for="radioTweede3">
+                                Tweede
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="VerkennersModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="VerkennersModalLabel">Verkenners Inteken</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/processVerkennersForm}" th:object="${verkennersForm}" method="POST" id="verkennersForm">
+                    <div class="mb-3">
+                        <label for="name4" class="form-label">Kind Naam en Van</label>
+                        <input th:field="*{kidNameAndSurname}" type="text" class="form-control" id="name4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname4" class="form-label">Ouer Naam en Van</label>
+                        <input th:field="*{parentNameAndSurname}" type="text" class="form-control" id="surname4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cellphone4" class="form-label">Selfoon Nommer</label>
+                        <input th:field="*{cellphoneNumber}" type="tel" class="form-control" id="cellphone4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Diens</label>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Eerste" type="radio" class="form-check-input" id="radioEerste4" required>
+                            <label class="form-check-label" for="radioEerste4">
+                                Eerste
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input th:field="*{service}" th:value="Tweede" type="radio" class="form-check-input" id="radioTweede4" required>
+                            <label class="form-check-label" for="radioTweede4">
+                                Tweede
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Show success alert if necessary
+    var successAlert = document.getElementById("successAlert");
+    if (successAlert.classList.contains("show")) {
+        setTimeout(function() {
+            successAlert.classList.remove("show");
+        }, 5000); // Adjust the delay as needed
+    }
+});
+</script>
+</body>
+</html>
